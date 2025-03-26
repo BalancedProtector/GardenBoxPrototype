@@ -59,9 +59,17 @@ header nav ul li a {
     margin-bottom: 2rem;
 }
 
-.hero .btn {
+.hero .btn1 {
     background-color: #28a745;
     color: #fff;
+    padding: 0.75rem 1.5rem;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.hero .btn2 {
+    background-color: #28a745;
+    color: grey;
     padding: 0.75rem 1.5rem;
     text-decoration: none;
     border-radius: 5px;

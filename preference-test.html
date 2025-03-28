@@ -4,11 +4,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Preference Test - Plant Box</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-
+    <header>
+        <div class="container">
+            <h1>Plant Box</h1>
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Products</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <section class="preference-test">
+        <div class="container">
+            <h2>Preferece Test</h2>
+            <form action="gardener-test.html" method="post">
+                <label for="fruits">What fruits do you prefer?</label>
+                <select name="fruits" id="fruits" multiple>
+                    <option value="apple">Apple</option>
+                    <option value="banana">Banana</option>
+                    <option value="orange">Orange</option>
+                    <option value="strawberry">Strawberry</option>
+                    <option value="grape">Grape</option>
+                </select>
+                <label for="vegetables">What vegetables do you prefer?</label>
+                <select name="vegetables" id="vegetables" multiple>
+                    <option value="carrot">Carrot</option>
+                    <option value="broccoli">Broccoli</option>
+                    <option value="spinach">Spinach</option>
+                    <option value="lettuce">Lettuce</option>
+                    <option value="cucumber">Cucumber</option>
+                </select>
+                <label for="herbs">What herbs do you prefer?</label>
+                <select name="herbs" id="herbs" multiple>
+                    <option value="basil">Basil</option>
+                    <option value="parsley">Parsley</option>
+                    <option value="rosemary">Rosemary</option>
+                    <option value="thyme">Thyme</option>
+                    <option value="cilantro">Cilantro</option>
+                </select>
+                <button type="submit" class="btn1">Next</button>
+            </form>
+        </div>
+    </section>
 </body>
 
 </html>

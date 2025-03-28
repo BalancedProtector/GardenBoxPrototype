@@ -32,6 +32,15 @@
                     pattern="\d{5}" required>
                 <button type="submit" class="btn1">Next</button>
             </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert('You must be signed in to access this page.');
+                        window.location.href = 'login.html'; // Redirect to login page
+                    }
+                });
+            </script>
         </div>
     </section>
     <script src="js/app.js"></script>

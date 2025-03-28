@@ -27,10 +27,19 @@
             <div id="user-data">
                 <!--User Data will be dynamically inserted here-->
             </div>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert('You must be signed in to access this page.');
+                        window.location.href = 'login.html'; // Redirect to login page
+                    }
+                });
+            </script>
         </div>
     </section>
     <script src="js/app.js"></script>
-    <script src="js/account.js"></script>
+
 </body>
 
 </html>

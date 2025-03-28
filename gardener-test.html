@@ -27,28 +27,28 @@
             <h2>Gardener Test</h2>
             <form action="account.html" method="post">
                 <label for="experience">How experienced are you with gardening?</label>
-                <select name="experience" id="experience">
+                <select id="experience" name="experience">
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
                     <option value="expert">Expert</option>
                 </select>
                 <label for="time">How much time do you have to dedicate to your garden?</label>
-                <select name="time" id="time">
+                <select id="time" name="time">
                     <option value="1-2">1-2 hours</option>
                     <option value="3-4">3-4 hours</option>
                     <option value="5-6">5-6 hours</option>
                     <option value="7+">7+ hours</option>
                 </select>
                 <label for="space">How much space do you have for your garden?</label>
-                <select name="space" id="space">
+                <select id="space" name="space">
                     <option value="small">Small</option>
                     <option value="medium">Medium</option>
                     <option value="large">Large</option>
                     <option value="extra-large">Expansive</option>
                 </select>
                 <label for="budget">What is your budget for gardening?</label>
-                <select name="budget" id="budget">
+                <select id="budget" name="budget">
                     <option value="low">Low</option>
                     <option value="medium">Medium</option>
                     <option value="high">High</option>
@@ -56,6 +56,15 @@
                 </select>
                 <button type="submit" class="btn1">Next</button>
             </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert('You must be signed in to access this page.');
+                        window.location.href = 'login.html'; // Redirect to login page
+                    }
+                });
+            </script>
         </div>
     </section>
     <script src="js/app.js"></script>

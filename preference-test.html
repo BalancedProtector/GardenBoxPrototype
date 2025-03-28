@@ -27,7 +27,7 @@
             <h2>Preferece Test</h2>
             <form action="gardener-test.html" method="post">
                 <label for="fruits">What fruits do you prefer?</label>
-                <select name="fruits" id="fruits" multiple>
+                <select id="fruits" name="fruits" multiple>
                     <option value="apple">Apple</option>
                     <option value="banana">Banana</option>
                     <option value="orange">Orange</option>
@@ -35,7 +35,7 @@
                     <option value="grape">Grape</option>
                 </select>
                 <label for="vegetables">What vegetables do you prefer?</label>
-                <select name="vegetables" id="vegetables" multiple>
+                <select id="vegetables" name="vegetables" multiple>
                     <option value="carrot">Carrot</option>
                     <option value="broccoli">Broccoli</option>
                     <option value="spinach">Spinach</option>
@@ -43,15 +43,68 @@
                     <option value="cucumber">Cucumber</option>
                 </select>
                 <label for="herbs">What herbs do you prefer?</label>
-                <select name="herbs" id="herbs" multiple>
+                <select id="herbs" name="herbs" multiple>
                     <option value="basil">Basil</option>
                     <option value="parsley">Parsley</option>
                     <option value="rosemary">Rosemary</option>
                     <option value="thyme">Thyme</option>
                     <option value="cilantro">Cilantro</option>
                 </select>
+                <label for="flowers">What flowers do you prefer?</label>
+                <select id="flowers" name="flowers" multiple>
+                    <option value="rose">Rose</option>
+                    <option value="tulip">Tulip</option>
+                    <option value="sunflower">Sunflower</option>
+                    <option value="daisy">Daisy</option>
+                    <option value="lily">Lily</option>
+                </select>
                 <button type="submit" class="btn1">Next</button>
             </form>
+            <script>
+                document.addEventListener('DOMContentLoaded', () => {
+                    const token = localStorage.getItem('token');
+                    if (!token) {
+                        alert('You must be signed in to access this page.');
+                        window.location.href = 'login.html'; // Redirect to login page
+                        return;
+                    }
+
+                    // Handle form submission
+                    document.getElementById('preference-form').addEventListener('submit', async (event) => {
+                        event.preventDefault();
+
+                        // Collect selected preferences
+                        const fruits = Array.from(document.getElementById('fruits').selectedOptions).map(option => option.value);
+                        const vegetables = Array.from(document.getElementById('vegetables').selectedOptions).map(option => option.value);
+                        const herbs = Array.from(document.getElementById('herbs').selectedOptions).map(option => option.value);
+                        const flowers = Array.from(document.getElementById('flowers').selectedOptions).map(option => option.value);
+
+                        const preferences = { fruits, vegetables, herbs, flowers };
+
+                        try {
+                            const response = await fetch('http://localhost:3000/preferences', {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`,
+                                },
+                                body: JSON.stringify({ preferences }),
+                            });
+
+                            const data = await response.json();
+                            if (response.ok) {
+                                alert(data.message);
+                                window.location.href = 'gardener-test.html'; // Redirect to the next test
+                            } else {
+                                alert(data.message);
+                            }
+                        } catch (error) {
+                            console.error('Error updating preferences:', error);
+                            alert('An error occurred. Please try again.');
+                        }
+                    });
+                });
+            </script>
         </div>
     </section>
     <script src="js/app.js"></script>

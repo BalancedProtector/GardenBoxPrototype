@@ -1,3 +1,4 @@
+import Papa from papaparse; //imports the Papaparse library
 document.addEventListener('DOMContentLoaded', () => {
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {

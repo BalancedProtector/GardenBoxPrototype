@@ -4,6 +4,7 @@ const cors = require('cors');
 const app = express();
 const PORT = 8888;
 
+
 //MongoDB Database Connection
 const mongoose = require('mongoose');
 
@@ -54,6 +55,15 @@ const jwt = require('jsonwebtoken');
 const SECRET_KEY = 'YHWY'; // Replace with your own secret key
 const bcrypt = require('bcrypt');
 
+//Serve Static files from the cirrent directory
+const path = require('path');
+app.use(express.static(path.join(__dirname)));
+
+//route for root URL
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+})
+
 //Protected Rout: Account
 app.get('/account', authenticateToken, (req, res) => {
     const user = users.find(u => u.email === req.user.email);
@@ -63,7 +73,7 @@ app.get('/account', authenticateToken, (req, res) => {
     res.status(200).json({ message: 'Account details', user });
 });
 //Route: User Signup
-app.post('/signup', (req, res) => {
+app.post('/signup.html', (req, res) => {
     const { name, email, password, password2 } = req.body;
 
     //valiidate input

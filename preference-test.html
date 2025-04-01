@@ -14,10 +14,10 @@
             <h1>Plant Box</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -25,39 +25,43 @@
     <section class="preference-test">
         <div class="container">
             <h2>Preferece Test</h2>
-            <form action="gardener-test.html" method="post">
-                <label for="fruits">What fruits do you prefer?</label>
-                <select id="fruits" name="fruits" multiple>
-                    <option value="apple">Apple</option>
-                    <option value="banana">Banana</option>
-                    <option value="orange">Orange</option>
-                    <option value="strawberry">Strawberry</option>
-                    <option value="grape">Grape</option>
-                </select>
+            <form id="preference-form">
+                <label>What fruits do you prefer?</label>
+                <div id="fruits">
+                    <label><input type="checkbox" name="fruits" value="apple"> Apple</label>
+                    <label><input type="checkbox" name="fruits" value="banana"> Banana</label>
+                    <label><input type="checkbox" name="fruits" value="orange"> Orange</label>
+                    <label><input type="checkbox" name="fruits" value="strawberry"> Strawberry</label>
+                    <label><input type="checkbox" name="fruits" value="grape"> Grape</label>
+                </div>
+                <br>
                 <label for="vegetables">What vegetables do you prefer?</label>
-                <select id="vegetables" name="vegetables" multiple>
-                    <option value="carrot">Carrot</option>
-                    <option value="broccoli">Broccoli</option>
-                    <option value="spinach">Spinach</option>
-                    <option value="lettuce">Lettuce</option>
-                    <option value="cucumber">Cucumber</option>
-                </select>
+                <div id="vegetables">
+                    <label><input type="checkbox" name="vegetables" value="carrot"> Carrot</label>
+                    <label><input type="checkbox" name="vegetables" value="broccoli"> Broccoli</label>
+                    <label><input type="checkbox" name="vegetables" value="spinach"> Spinach</label>
+                    <label><input type="checkbox" name="vegetables" value="pepper"> Pepper</label>
+                    <label><input type="checkbox" name="vegetables" value="cucumber"> Cucumber</label>
+                </div>
+                <br>
                 <label for="herbs">What herbs do you prefer?</label>
-                <select id="herbs" name="herbs" multiple>
-                    <option value="basil">Basil</option>
-                    <option value="parsley">Parsley</option>
-                    <option value="rosemary">Rosemary</option>
-                    <option value="thyme">Thyme</option>
-                    <option value="cilantro">Cilantro</option>
-                </select>
+                <div id="herbs">
+                    <label><input type="checkbox" name="herbs" value="basil"> Basil</label>
+                    <label><input type="checkbox" name="herbs" value="mint"> Mint</label>
+                    <label><input type="checkbox" name="herbs" value="parsley"> Parsley</label>
+                    <label><input type="checkbox" name="herbs" value="cilantro"> Cilantro</label>
+                    <label><input type="checkbox" name="herbs" value="rosemary"> Rosemary</label>
+                </div>
+                <br>
                 <label for="flowers">What flowers do you prefer?</label>
-                <select id="flowers" name="flowers" multiple>
-                    <option value="rose">Rose</option>
-                    <option value="tulip">Tulip</option>
-                    <option value="sunflower">Sunflower</option>
-                    <option value="daisy">Daisy</option>
-                    <option value="lily">Lily</option>
-                </select>
+                <div id="flowers">
+                    <label><input type="checkbox" name="flowers" value="rose"> Rose</label>
+                    <label><input type="checkbox" name="flowers" value="tulip"> Tulip</label>
+                    <label><input type="checkbox" name="flowers" value="sunflower"> Sunflower</label>
+                    <label><input type="checkbox" name="flowers" value="daisy"> Daisy</label>
+                    <label><input type="checkbox" name="flowers" value="lily"> Lily</label>
+                </div>
+                <br>
                 <button type="submit" class="btn1">Next</button>
             </form>
             <script>
@@ -74,15 +78,16 @@
                         event.preventDefault();
 
                         // Collect selected preferences
-                        const fruits = Array.from(document.getElementById('fruits').selectedOptions).map(option => option.value);
-                        const vegetables = Array.from(document.getElementById('vegetables').selectedOptions).map(option => option.value);
-                        const herbs = Array.from(document.getElementById('herbs').selectedOptions).map(option => option.value);
-                        const flowers = Array.from(document.getElementById('flowers').selectedOptions).map(option => option.value);
+                        const fruits = Array.from(document.querySelectorAll('input[name="fruits"]:checked')).map(input => input.value);
+                        const vegetables = Array.from(document.querySelectorAll('input[name="vegetables"]:checked')).map(input => input.value);
+                        const herbs = Array.from(document.querySelectorAll('input[name="herbs"]:checked')).map(input => input.value);
+                        const flowers = Array.from(document.querySelectorAll('input[name="flowers"]:checked')).map(input => input.value);
+
 
                         const preferences = { fruits, vegetables, herbs, flowers };
 
                         try {
-                            const response = await fetch('http://localhost:3000/preferences', {
+                            const response = await fetch('http://localhost:8888/preferences', {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -107,7 +112,7 @@
             </script>
         </div>
     </section>
-    <script src="js/app.js"></script>
+    <script src="js/app.js" type="module"></script>
 </body>
 
 </html>

@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -13,10 +14,10 @@
             <h1>Plant Box</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -25,21 +26,126 @@
         <div class="container">
             <h2>Your Account</h2>
             <div id="user-data">
-                <!--User Data will be dynamically inserted here-->
+                <!-- User Data will be dynamically inserted here -->
             </div>
+            <h3>Edit Your Prefereces</h3>
+            <form id="profile-form">
+                <label for="growing-zone">Growing Zone: </label>
+                <input type="text" id="growing-zone" name="growing-zone" value="">
+
+                <label for="gardening-experience">Gardening Experience: </label>
+                <select id="gardening-experience" name="gardening-experience">
+                    <option value="beginner">Beginner</option>
+                    <option value="intermediate">Intermediate</option>
+                    <option value="advanced">Advanced</option>
+                    <option value="expert">Expert</option>
+                </select>
+
+                <label for="space">Space: </label>
+                <select id="space" name="space">
+                    <option value="small">Small</option>
+                    <option value="medium">Medium</option>
+                    <option value="large">Large</option>
+                    <option value="extra-large">Expansive</option>
+                </select>
+
+                <label for="budget">Budget: </label>
+                <select id="budget" name="budget">
+                    <option value="low">Low</option>
+                    <option value="medium">Medium</option>
+                    <option value="high">High</option>
+                    <option value="unlimited">Unlimited</option>
+                </select>
+
+                <label for="time">Time: </label>
+                <select id="time" name="time">
+                    <option value="1-2">1-2 hours</option>
+                    <option value="3-4">3-4 hours</option>
+                    <option value="5-6">5-6 hours</option>
+                    <option value="7+">Full Time</option>
+                </select>
+                <button type="submit" class="btn1">Save Changes</button>
+            </form>
+
+
+            <button id="logout-btn" class="btn1">Logout</button>
             <script>
-                document.addEventListener('DOMContentLoaded', () => {
+                // Ensure the user is signed in
+                document.addEventListener('DOMContentLoaded', async () => {
                     const token = localStorage.getItem('token');
                     if (!token) {
                         alert('You must be signed in to access this page.');
                         window.location.href = 'login.html'; // Redirect to login page
+                        return;
+                    }
+
+                    try {
+                        const response = await fetch('http://localhost:8888/account', {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': `Bearer ${token}`
+                            }
+                        });
+
+                        if (response.ok) {
+                            const userData = await response.json();
+                            const userDataDiv = document.getElementById('user-data');
+                            userDataDiv.innerHTML = `
+                                <p><strong>Name:</strong> ${userData.name}</p>
+                                <p><strong>Email:</strong> ${userData.email}</p>
+                                <p><strong>Gardening Experience:</strong> ${userData.gardeningExperience || 'Not provided'}</p>
+                                <p><strong>Space:</strong> ${userData.space || 'Not provided'}</p>
+                                <p><strong>Budget:</strong> ${userData.budget || 'Not provided'}</p>
+                            `;
+                        } else {
+                            alert('Failed to fetch user data. Please try again.');
+                            window.location.href = 'login.html'; // Redirect to login page
+                        }
+                    } catch (error) {
+                        console.error('Error fetching user data:', error);
+                        alert('An error occurred. Please try again.');
+                    }
+
+                    // Logout functionality
+                    const logoutBtn = document.getElementById('logout-btn');
+                    logoutBtn.addEventListener('click', () => {
+                        localStorage.removeItem('token'); // Remove token from local storage
+                        alert('You have been logged out.');
+                        window.location.href = 'login.html'; // Redirect to login page
+                    });
+                });
+                document.getElementById('profile-form').addEventListener('submit', async (event) => {
+                    event.preventDefault(); // Prevent default form submition
+                    const token = localStorage.getItem('token');
+                    const growingZone = document.getElementById('growing-zone').value;
+                    const gardeningExperience = document.getElementById('gardening-experience').value;
+                    const space = document.getElementById('space').value;
+                    const budget = document.getElementById('budget').value;
+                    const time = document.getElementById('time').value;
+
+                    try {
+                        const response = await fetch('http://localhost:8888/account', {
+                            method: 'PUT',
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({ growingZone, gardeningExperience, space, budget, time }),
+                        });
+                        if (response.ok) {
+                            alert('Profile updated successfully!');
+                        } else {
+                            alert('Failed to update profile. Please try again.');
+                        }
+                    } catch (error) {
+                        console.error('Error updating profile:', error);
+                        alert('An error occurred. Please try again.');
                     }
                 });
             </script>
         </div>
     </section>
-    <script src="js/app.js"></script>
-
+    <script src="js/app.js" type="module"></script>
 </body>
 
 </html>

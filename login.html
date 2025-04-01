@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Please Login</title>
+    <title>Login - Plant Box</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
@@ -13,10 +14,10 @@
             <h1>Plant Box</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -37,21 +38,24 @@
             <script>
                 document.getElementById('login-form').addEventListener('submit', async (event) => {
                     event.preventDefault();
+
                     const email = document.getElementById('email').value;
                     const password = document.getElementById('password').value;
 
                     try {
-                        const response = await fetch('https://localhost:3000/login', {
+                        const response = await fetch('http://localhost:8888/login', { // Corrected URL
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
                             body: JSON.stringify({ email, password })
                         });
+
                         const data = await response.json();
                         if (response.ok) {
                             alert(data.message);
-                            window.location.href = "account.html";
+                            localStorage.setItem('token', data.token); // Store the token in local storage
+                            window.location.href = "account.html"; // Redirect to the account page
                         } else {
-                            alert(data.message);
+                            alert(data.message); // Show error message from the server
                         }
                     } catch (error) {
                         console.error('Error:', error);
@@ -61,7 +65,7 @@
             </script>
         </div>
     </section>
-    <script src="js/app.js"></script>
+    <script src="js/app.js" type="module"></script>
 </body>
 
 </html>

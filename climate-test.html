@@ -15,10 +15,10 @@
             <h1>Plant Box</h1>
             <nav>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Products</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="index">Home</a></li>
+                    <li><a href="about">About</a></li>
+                    <li><a href="products">Products</a></li>
+                    <li><a href="contact">Contact</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,24 +26,52 @@
     <section class="climate-test">
         <div class="container">
             <h2>Climate Test</h2>
-            <form action="preference-test.html" method="post">
+            <form id="climate-test-form">
                 <label for="growing-zone">Please enter your Zipcode</label>
                 <input type="text" id="growing-zone" name="growing-zone" placeholder="Enter your Zipcode"
                     pattern="\d{5}" required>
                 <button type="submit" class="btn1">Next</button>
             </form>
             <script>
+                // Ensure the user is signed in
                 document.addEventListener('DOMContentLoaded', () => {
                     const token = localStorage.getItem('token');
                     if (!token) {
                         alert('You must be signed in to access this page.');
                         window.location.href = 'login.html'; // Redirect to login page
                     }
+
+                    // Handle form submission
+                    const form = document.getElementById('climate-test-form');
+                    form.addEventListener('submit', async (event) => {
+                        event.preventDefault(); // Prevent the default form submission
+
+                        const zipcode = document.getElementById('growing-zone').value;
+
+                        try {
+                            const response = await fetch('/verify-zipcode', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ zipcode }),
+                            });
+
+                            const data = await response.json();
+                            if (response.ok) {
+                                alert(`Zipcode verified! Zone: ${data.zone}`);
+                                window.location.href = 'preference-test.html'; // Redirect to the next step
+                            } else {
+                                alert(data.message); // Show error message from the server
+                            }
+                        } catch (error) {
+                            console.error('Error verifying zipcode:', error);
+                            alert('An error occurred. Please try again.');
+                        }
+                    });
                 });
             </script>
+            <script src="js/app.js" type="module"></script>
         </div>
     </section>
-    <script src="js/app.js"></script>
 </body>
 
 </html>

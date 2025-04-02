@@ -13,11 +13,7 @@ const csv = require('csv-parser');
 const app = express();
 const PORT = 8888;
 const SECRET_KEY = 'YHWY'; // Replace with your own secret key
-//array selectors for preference-test.html
-const fruits = Array.from(document.querySelectorAll('input[name="fruits"]:checked')).map(input => input.value);
-const vegetables = Array.from(document.querySelectorAll('input[name="vegetables"]:checked')).map(input => input.value);
-const herbs = Array.from(document.querySelectorAll('input[name="herbs"]:checked')).map(input => input.value);
-const flowers = Array.from(document.querySelectorAll('input[name="flowers"]:checked')).map(input => input.value);
+
 // MongoDB Database Connection
 mongoose.connect('mongodb://localhost:27017/your_database_name')
     .then(() => console.log('Connected to Database'))
@@ -43,9 +39,10 @@ const UserSchema = new mongoose.Schema({
 const User = mongoose.model('User', UserSchema);
 
 // Middleware
-app.use(bodyParser.json());
 app.use(cors());
 app.use(express.static(path.join(__dirname)));
+app.use(express.json()); // Parse JSON bodies (as sent by API clients)
+app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies (as sent by HTML forms)
 
 // Authentication Middleware
 function authenticateToken(req, res, next) {
@@ -116,6 +113,7 @@ app.put('/account', authenticateToken, async (req, res) => {
 });
 // Update User Preferences (from preference-test.html)
 app.put('/preferences', authenticateToken, async (req, res) => {
+    console.log('Request recieved: ', req.body); //Log the request for Debugging
     const { preferences } = req.body;
 
     if (!preferences) {

@@ -64,52 +64,6 @@
                 <br>
                 <button type="submit" class="btn1">Next</button>
             </form>
-            <script>
-                document.addEventListener('DOMContentLoaded', () => {
-                    const token = localStorage.getItem('token');
-                    if (!token) {
-                        alert('You must be signed in to access this page.');
-                        window.location.href = 'login.html'; // Redirect to login page
-                        return;
-                    }
-
-                    // Handle form submission
-                    document.getElementById('preference-form').addEventListener('submit', async (event) => {
-                        event.preventDefault();
-
-                        // Collect selected preferences
-                        const fruits = Array.from(document.querySelectorAll('input[name="fruits"]:checked')).map(input => input.value);
-                        const vegetables = Array.from(document.querySelectorAll('input[name="vegetables"]:checked')).map(input => input.value);
-                        const herbs = Array.from(document.querySelectorAll('input[name="herbs"]:checked')).map(input => input.value);
-                        const flowers = Array.from(document.querySelectorAll('input[name="flowers"]:checked')).map(input => input.value);
-
-
-                        const preferences = { fruits, vegetables, herbs, flowers };
-
-                        try {
-                            const response = await fetch('http://localhost:8888/preferences', {
-                                method: 'PUT',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'Authorization': `Bearer ${token}`,
-                                },
-                                body: JSON.stringify({ preferences }),
-                            });
-
-                            const data = await response.json();
-                            if (response.ok) {
-                                alert(data.message);
-                                window.location.href = 'gardener-test.html'; // Redirect to the next test
-                            } else {
-                                alert(data.message);
-                            }
-                        } catch (error) {
-                            console.error('Error updating preferences:', error);
-                            alert('An error occurred. Please try again.');
-                        }
-                    });
-                });
-            </script>
         </div>
     </section>
     <script src="js/app.js" type="module"></script>
